@@ -137,8 +137,11 @@ class CI_DB_mysql_driver extends CI_DB {
 	{
 		if ( ! isset($this->use_set_names))
 		{
-			// mysql_set_charset() requires PHP >= 5.2.3 and MySQL >= 5.0.7, use SET NAMES as fallback
-			$this->use_set_names = (version_compare(PHP_VERSION, '5.2.3', '>=') && version_compare(mysql_get_server_info(), '5.0.7', '>=')) ? FALSE : TRUE;
+			// mysql_set_charset() requires PHP >= 5.2.3 and MySQL >= 5.0.7 and MySQL client >= 4.1.13, use SET NAMES as fallback
+			$this->use_set_names = (version_compare(PHP_VERSION, '5.2.3', '>=') && 
+									version_compare(mysql_get_server_info(), '5.0.7', '>=') && 
+									version_compare(mysql_get_client_info(), '4.1.13', '>=')) ? FALSE : TRUE;
+
 		}
 
 		if ($this->use_set_names === TRUE)
